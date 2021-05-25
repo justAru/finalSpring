@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>create-item</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+<body>
+<header>
+		<nav class="navbar navbar-expand-md navbar-dark"
+			style="background-color: tomato">
+			<div>
+				<a href="" class="navbar-brand"> Simple Java Spring Final App</a>
+			</div>
+
+            <ul class="navbar-nav">
+				<li><a href="homepage.html"
+					class="nav-link">Home</a></li>
+			</ul>
+
+            <ul class="navbar-nav">
+				<li><a href="create-user.html"
+					class="nav-link">Add user</a></li>
+			</ul>
+
+			<ul class="navbar-nav">
+				<li><a href="create-item.html"
+					class="nav-link">Add Item</a></li>
+			</ul>
+
+			<ul class="navbar-nav">
+				<li><a href="users-table.html"
+					class="nav-link">Users</a></li>
+			</ul>
+
+            <ul class="navbar-nav">
+				<li><a href="items-table.html"
+					class="nav-link">Items</a></li>
+			</ul>
+
+			<ul class="navbar-nav navbar-collapse justify-content-end">
+				<li><a href="index.html"
+					class="nav-link">Logout</a></li>
+			</ul>
+		</nav>
+	</header>
+
+<form action="#">
+    <div class="form-group">
+    <label for="name">Item name</label>
+    <input type="text" class="form-control" id="name" placeholder="Enter full name">
+  </div>
+
+    <div class="form-group">
+    <label for="info">Item info</label>
+    <input type="text" class="form-control" id="info"  placeholder="Enter DoB">
+  </div>
+
+  <div class="form-group">
+    <label for="price">Price</label>
+    <input type="text" class="form-control" id="price"  placeholder="Enter username">
+  </div>
+
+  <div class="form-group">
+    <label for="itemType">Item Type</label>
+    <input type="text" class="form-control" id="itemType" placeholder="Password">
+  </div>
+
+  <button onclick="createItem()" type="submit" class="btn btn-primary">Create Item</button>
+</form>
+
+<script>
+
+    function createItem() {
+        var itemName = document.getElementById("name").value;
+        var itemInfo = document.getElementById("info").value;
+        var itemPrice = document.getElementById("price").value;
+        var itemType = document.getElementById("itemType").value;
+
+
+        var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
+        xmlhttp.open("POST", "http://localhost:8080/items/create");
+        xmlhttp.setRequestHeader("Content-Type", "application/json");
+        xmlhttp.send(JSON.stringify({name: itemName, info: itemInfo, price: itemPrice, itemType: itemType}));
+
+        loadItems();
+    }
+
+</script>
+
+<style>
+.footer {
+    position: fixed;
+    bottom: 0;
+    width:100%;
+    height: 40px;
+    background-color: tomato;
+}
+</style>
+
+<footer class="footer font-small black">
+    <!-- Copyright -->
+  <div class="footer-copyright text-center py-3" style="color: white">2021 Copyright:
+        <a href="https://github.com/justAru" > <strong> @justaru </strong></a>
+      </div>
+</footer>
+</body>
+</html>
