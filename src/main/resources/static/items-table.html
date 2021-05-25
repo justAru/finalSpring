@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>items</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+        <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+		<nav class="navbar navbar-expand-md navbar-dark"
+			style="background-color: tomato">
+			<div>
+				<a href="" class="navbar-brand"> Simple Java Spring Final App</a>
+			</div>
+
+            <ul class="navbar-nav">
+				<li><a href="homepage.html"
+					class="nav-link">Home</a></li>
+			</ul>
+
+            <ul class="navbar-nav">
+				<li><a href="create-user.html"
+					class="nav-link">Add user</a></li>
+			</ul>
+
+			<ul class="navbar-nav">
+				<li><a href="create-item.html"
+					class="nav-link">Add Item</a></li>
+			</ul>
+
+			<ul class="navbar-nav">
+				<li><a href="users-table.html"
+					class="nav-link">Users</a></li>
+			</ul>
+
+            <ul class="navbar-nav">
+				<li><a href="items-table.html"
+					class="nav-link">Items</a></li>
+			</ul>
+
+			<ul class="navbar-nav navbar-collapse justify-content-end">
+				<li><a href="index.html"
+					class="nav-link">Logout</a></li>
+			</ul>
+		</nav>
+	</header>
+
+<h2>Items Management Table</h2>
+
+<input id="search_field">
+<button onclick="searchByItemName()" type="submit" class="btn btn-primary">Search item by ID</button>
+<br><br>
+<table id="itemsList">
+</table>
+
+<script>
+
+    function searchByItemName() {
+        var id = document.getElementById("search_field").value;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var item = JSON.parse(this.responseText);
+                var html = '<tr>\n' +
+                    '        <th>Item id</th>\n' +
+                    '        <th>Item name</th>\n' +
+                    '        <th>Item info</th>\n' +
+                    '        <th>price</th>\n' +
+                    '        <th>Item type</th>\n' +
+                    '        <th>Delete</th>\n' +
+                    '    </tr>';
+                html = html + '<tr><td>' + item.id + '</td>\n' +
+                        '        <td>' + item.name + '</td>\n' +
+                        '        <td>' + item.info + '</td>\n' +
+                        '        <td>' + item.price + '</td>' +
+                        '        <td>' + item.itemType + '</td>' +
+                    '        <td><button onclick="deleteItem(' + item.id + ')">Delete</button></td></tr>';
+                document.getElementById("itemsList").innerHTML = html;
+            }
+        };
+        xhttp.open("GET", "http://localhost:8080/items/" + id, true);
+        xhttp.send();
+    }
+
+    function deleteItem(itemId) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("DELETE", "http://localhost:8080/items/delete/" + itemId, true);
+        xhttp.send();
+        loadItems();
+    }
+
+
+    function loadItems() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var items = JSON.parse(this.responseText);
+                var html = '<tr>\n' +
+                    '        <th>Item id</th>\n' +
+                    '        <th>Item name</th>\n' +
+                    '        <th>Item info</th>\n' +
+                    '        <th>price</th>\n' +
+                    '        <th>Item type</th>\n' +
+                    '        <th>Delete</th>\n' +
+                    '    </tr>';
+                for (var i = 0; i < items.length; i++) {
+                    var item = items[i];
+                    console.log(item);
+                    html = html + '<tr><td>' + item.id + '</td>\n' +
+                        '        <td>' + item.name + '</td>\n' +
+                        '        <td>' + item.info + '</td>\n' +
+                        '        <td>' + item.price + '</td>' +
+                        '        <td>' + item.itemType + '</td>' +
+                        '        <td><button onclick="deleteItem(' + item.id + ')">Delete</button></td></tr>';
+                }
+                document.getElementById("itemsList").innerHTML = html;
+            }
+        };
+        xhttp.open("GET", "http://localhost:8080/items/all", true);
+        xhttp.send();
+    }
+
+    loadItems();
+</script>
+
+<style>
+.footer {
+    position: fixed;
+    bottom: 0;
+    width:100%;
+    height: 40px;
+    background-color: tomato;
+}
+</style>
+
+<footer class="footer font-small black">
+    <!-- Copyright -->
+  <div class="footer-copyright text-center py-3" style="color: white">2021 Copyright:
+        <a href="https://github.com/justAru" > <strong> @justaru </strong></a>
+      </div>
+</footer>
+</body>
+</html>
